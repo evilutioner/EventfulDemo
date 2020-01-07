@@ -27,7 +27,8 @@ struct TabBarContentView: View {
                 }
                 .tag(barItem.rawValue)
             }
-        }.onAppear(perform: refreshEventsIfNeed)
+        }
+        .onAppear(perform: refreshEventsIfNeed)
     }
     
     private func refreshEventsIfNeed() {

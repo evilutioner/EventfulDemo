@@ -10,25 +10,48 @@ import SwiftUI
 
 struct EventCellView: View {
     let event: Event
+    
     var viewModel: EventCellViewModel {
         EventCellViewModel(event: event)
     }
-    //@Binding var viewModel: EventCellViewModel
+    @State private var showSafari = false
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(viewModel.name)
-                Text(viewModel.dateString)
-                    .font(.footnote)
-                    .foregroundColor(.gray)
+        Button(action: {
+            self.showSafari = true
+        }) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(viewModel.name)
+                    Text(viewModel.dateString)
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+                }
+                Spacer()
+                Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+                    .onTapGesture(perform: tapOnfavoriteAction)
+                
             }
-            Spacer()
-            Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+            .padding()
+        }.sheet(isPresented: $showSafari) {
+            SafariView(url: self.event.url)
         }
-        .padding()
+    }
+    
+    private func tapOnfavoriteAction() {
+        event.isFavorite = !event.isFavorite
     }
 }
+
+import CoreData
+
+private extension NSManagedObject {
+    var url: URL? {
+        guard let path = value(forKey: "url") as? String else { return nil }
+        return URL(string: path)
+    }
+}
+
 
 //struct EventCellView_Previews: PreviewProvider {
 //    @State static var viewModel = EventCellViewModel(name: "Name", dateString: "Date", isFavorite: true)

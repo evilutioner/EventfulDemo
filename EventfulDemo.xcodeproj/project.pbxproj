@@ -27,6 +27,8 @@
 		7C30D56623BFCCDF002E536A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D56423BFCCDF002E536A /* Model.xcdatamodeld */; };
 		7C30D5A723C059BA002E536A /* DatabaseStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D5A623C059BA002E536A /* DatabaseStack.swift */; };
 		7C30D5A923C0EAEF002E536A /* Event+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D5A823C0EAEF002E536A /* Event+Ext.swift */; };
+		7C30D5AB23C1F58D002E536A /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D5AA23C1F58D002E536A /* SafariView.swift */; };
+		7C30D5AD23C1F5D1002E536A /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C30D5AC23C1F5D1002E536A /* SafariViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		7C30D56523BFCCDF002E536A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		7C30D5A623C059BA002E536A /* DatabaseStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseStack.swift; sourceTree = "<group>"; };
 		7C30D5A823C0EAEF002E536A /* Event+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Ext.swift"; sourceTree = "<group>"; };
+		7C30D5AA23C1F58D002E536A /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		7C30D5AC23C1F5D1002E536A /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +172,8 @@
 				7C2D8C9323BE56D800CE5EAE /* TabBarContentView.swift */,
 				7C2D8CC123BE5DE500CE5EAE /* EventListView.swift */,
 				7C2D8CC723BE6A8300CE5EAE /* EventCellView.swift */,
+				7C30D5AA23C1F58D002E536A /* SafariView.swift */,
+				7C30D5AC23C1F5D1002E536A /* SafariViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -339,8 +345,10 @@
 				7C30D56123BFAFCE002E536A /* Errors.swift in Sources */,
 				7C2D8CCB23BE6F7000CE5EAE /* EventCellViewModel.swift in Sources */,
 				7C30D55F23BFAB0B002E536A /* EventsModel.swift in Sources */,
+				7C30D5AB23C1F58D002E536A /* SafariView.swift in Sources */,
 				7C30D56623BFCCDF002E536A /* Model.xcdatamodeld in Sources */,
 				7C2D8CC223BE5DE500CE5EAE /* EventListView.swift in Sources */,
+				7C30D5AD23C1F5D1002E536A /* SafariViewController.swift in Sources */,
 				7C30D5A923C0EAEF002E536A /* Event+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

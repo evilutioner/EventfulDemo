@@ -13,7 +13,6 @@ struct EventListView: View {
     private var events: FetchedResults<Event> { fetchRequest.wrappedValue }
     
     init(predicate: NSPredicate) {
-        
         fetchRequest = FetchRequest(entity: Event.entity(), sortDescriptors: [], predicate: predicate)
     }
     
@@ -25,4 +24,3 @@ struct EventListView: View {
         }
     }
 }
-
