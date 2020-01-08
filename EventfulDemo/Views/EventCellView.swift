@@ -9,12 +9,13 @@
 import SwiftUI
 
 struct EventCellView: View {
-    let event: Event
     
-    var viewModel: EventCellViewModel {
-        EventCellViewModel(event: event)
-    }
+    @State var viewModel: EventCellViewModel
     @State private var showSafari = false
+    
+    init(event: Event) {
+        _viewModel = State(initialValue: EventCellViewModel(event: event))
+    }
     
     var body: some View {
         Button(action: {
@@ -29,26 +30,12 @@ struct EventCellView: View {
                 }
                 Spacer()
                 Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
-                    .onTapGesture(perform: tapOnfavoriteAction)
-                
+                    .onTapGesture { self.viewModel.toggleIsFavorite() }
             }
             .padding()
         }.sheet(isPresented: $showSafari) {
-            SafariView(url: self.event.url)
+            SafariView(url: self.viewModel.url)
         }
-    }
-    
-    private func tapOnfavoriteAction() {
-        event.isFavorite = !event.isFavorite
-    }
-}
-
-import CoreData
-
-private extension NSManagedObject {
-    var url: URL? {
-        guard let path = value(forKey: "url") as? String else { return nil }
-        return URL(string: path)
     }
 }
 
