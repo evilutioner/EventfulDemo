@@ -12,8 +12,7 @@ struct TabBarContentView: View {
     @State var viewModel = TabBarViewModel()
     @State private var selection = 0
     
-    let dataStore: DataStore
-    //@EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: DataStore
  
     var body: some View {
         TabView(selection: $selection){
@@ -32,7 +31,7 @@ struct TabBarContentView: View {
     }
     
     private func refreshEventsIfNeed() {
-        dataStore.refreshEventsIfNeed()
+        dataStore.refreshEventsIfNeed(force: false, callback: nil)
     }
 }
 

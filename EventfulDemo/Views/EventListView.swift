@@ -11,6 +11,8 @@ import SwiftUI
 struct EventListView: View {
     private let fetchRequest: FetchRequest<Event>
     private var events: FetchedResults<Event> { fetchRequest.wrappedValue }
+    @State private var isRefreshing = false
+    @EnvironmentObject var dataStore: DataStore
     
     init(predicate: NSPredicate) {
         fetchRequest = FetchRequest(entity: Event.entity(), sortDescriptors: [], predicate: predicate)
@@ -22,5 +24,14 @@ struct EventListView: View {
                 EventCellView(event: event)
             }
         }
+        .background(PullToRefresh(action: {
+            self.dataStore.refreshEventsIfNeed(force: true) {
+                self.isRefreshing = false
+            }
+        }, isShowing: $isRefreshing))
+    }
+    
+    private func refreshEventsIfNeed() {
+        //dataStore.refreshEvent
     }
 }

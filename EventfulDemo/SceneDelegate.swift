@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let params = DataStoreParams(config: .init(), downloader: DownloaderImpl(), databaseStack: databaseStack, userDefaults: UserDefaults.standard)
         
-        let dataStore = DataStoreImpl(params: params)
-        let contentView = TabBarContentView(dataStore: dataStore).environment(\.managedObjectContext, managedObjectContext)
+        let dataStore: DataStore = DataStoreImpl(params: params)
+        let contentView = TabBarContentView().environmentObject(dataStore).environment(\.managedObjectContext, managedObjectContext)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

@@ -10,8 +10,11 @@ import Foundation
 import Combine
 import CoreData
 
-protocol DataStore {
-    func refreshEventsIfNeed()
+class DataStore: ObservableObject {
+    func refreshEventsIfNeed(force: Bool, callback: (() -> Void)?) {
+        assertionFailure("Ovrridable")
+    }
+    var objectWillChange = ObservableObjectPublisher()
 }
 
 struct DataStoreParams {
@@ -45,8 +48,11 @@ final class DataStoreImpl: DataStore {
         self.params = params
     }
     
-    func refreshEventsIfNeed() {
-        if let date = contentLoadedDate, date.timeIntervalSince(Date()) < params.config.cacheLifeTime { return }
+    override func refreshEventsIfNeed(force: Bool, callback: (() -> Void)?) {
+        if let date = contentLoadedDate, !force && date.timeIntervalSince(Date()) < params.config.cacheLifeTime {
+            callback?()
+            return
+        }
         
         cancellable = params.downloader.loadEvents(retryCount: params.config.networkRetryCount)
             .sink(receiveCompletion: { (completion) in
@@ -56,6 +62,7 @@ final class DataStoreImpl: DataStore {
                 case .finished:
                     debugPrint("loading comlited")
                 }
+                callback?()
             }, receiveValue: { [weak self] (model) in
                 self?.save(loadedEvents: model.events.event)
             })
@@ -84,6 +91,12 @@ final class DataStoreImpl: DataStore {
         }
 
         guard context.hasChanges else { return }
+        
+        DispatchQueue.main.sync { [weak self] in
+            self?.contentLoadedDate = Date()
+            self?.objectWillChange.send()
+        }
+        
         do {
             try context.save()
         } catch {
