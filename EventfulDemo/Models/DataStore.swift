@@ -31,8 +31,8 @@ struct DataStoreParams {
 final class DataStoreImpl: DataStore {
     
     var params: DataStoreParams
+    private var queue = DispatchQueue(label: "DataStore", qos: .userInitiated)
     
-    let eventsSubject = CurrentValueSubject<[EventCellViewModel], Error>([])
     var cancellable: AnyCancellable?
     
     var contentLoadedDate: Date? {
@@ -55,6 +55,7 @@ final class DataStoreImpl: DataStore {
         }
         
         cancellable = params.downloader.loadEvents(retryCount: params.config.networkRetryCount)
+            .receive(on: queue)
             .sink(receiveCompletion: { (completion) in
                 switch completion {
                 case .failure(let error):
@@ -92,16 +93,18 @@ final class DataStoreImpl: DataStore {
 
         guard context.hasChanges else { return }
         
-        DispatchQueue.main.sync { [weak self] in
-            self?.contentLoadedDate = Date()
+        DispatchQueue.main.async { [weak self] in
             self?.objectWillChange.send()
-        }
-        
-        do {
-            try context.save()
-        } catch {
-            print("Saving Core Data Failed: \(error)")
-            assertionFailure()
+            self?.contentLoadedDate = Date()
+            
+            self?.queue.async {
+                do {
+                    try context.save()
+                } catch {
+                    print("Saving Core Data Failed: \(error)")
+                    assertionFailure()
+                }
+            }
         }
     }
 }
