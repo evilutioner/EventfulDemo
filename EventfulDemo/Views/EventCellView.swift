@@ -10,11 +10,11 @@ import SwiftUI
 
 struct EventCellView: View {
     
-    @State var viewModel: EventCellViewModel
+    @State private var viewModel: EventCellViewModel
     @State private var showSafari = false
     
-    init(event: Event) {
-        _viewModel = State(initialValue: EventCellViewModel(event: event))
+    init(viewModel: EventCellViewModel) {
+        _viewModel = State(initialValue: viewModel)
     }
     
     var body: some View {
@@ -40,9 +40,9 @@ struct EventCellView: View {
 }
 
 
-//struct EventCellView_Previews: PreviewProvider {
-//    @State static var viewModel = EventCellViewModel(name: "Name", dateString: "Date", isFavorite: true)
-//    static var previews: some View {
-//        EventCellView(viewModel: $viewModel)
-//    }
-//}
+struct EventCellView_Previews: PreviewProvider {
+    @State static var viewModel = EventCellViewModel(name: "Name", dateString: "Date", isFavorite: true)
+    static var previews: some View {
+        EventCellView(viewModel: viewModel)
+    }
+}

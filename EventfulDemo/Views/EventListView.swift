@@ -12,7 +12,7 @@ struct EventListView: View {
     private let fetchRequest: FetchRequest<Event>
     private var events: FetchedResults<Event> { fetchRequest.wrappedValue }
     @State private var isRefreshing = false
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject private var dataStore: DataStore
     
     init(predicate: NSPredicate) {
         fetchRequest = FetchRequest(entity: Event.entity(), sortDescriptors: [], predicate: predicate)
@@ -21,7 +21,7 @@ struct EventListView: View {
     var body: some View {
         List {
             ForEach(events) { event in
-                EventCellView(event: event)
+                EventCellView(viewModel: .init(event: event))
             }
         }
         .background(PullToRefresh(action: {

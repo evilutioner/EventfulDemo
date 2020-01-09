@@ -34,9 +34,3 @@ struct TabBarContentView: View {
         dataStore.refreshEventsIfNeed(force: false, callback: nil)
     }
 }
-
-//struct TabBarContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TabBarContentView()
-//    }
-//}

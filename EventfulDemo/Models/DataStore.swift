@@ -84,6 +84,7 @@ final class DataStoreImpl: DataStore {
                     let newEvent = Event(context: context)
                     newEvent.update(model: loadedEvent)
                 }
+                // TODO: remove lost items
             }
             
         } catch {
