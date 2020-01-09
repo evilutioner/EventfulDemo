@@ -11,8 +11,7 @@ import Foundation
 protocol EventCellViewModelProtocol {
     var name: String { get }
     var dateString: String { get }
-    var isFavorite: Bool { get }
-    mutating func toggleIsFavorite()
+    var isFavorite: Bool { get set }
 }
 
 struct EventCellViewModel: EventCellViewModelProtocol {
@@ -24,9 +23,16 @@ struct EventCellViewModel: EventCellViewModelProtocol {
         return dateFormatter
     }()
     
-    var name: String
-    var dateString: String = ""
-    var isFavorite: Bool
+    let name: String
+    let dateString: String
+    var isFavorite: Bool {
+        didSet {
+            guard let event = event, let moc = event.managedObjectContext, !event.isDeleted  else { return }
+            event.isFavorite = isFavorite
+            try? moc.save()
+            event.objectWillChange.send()
+        }
+    }
     var url: URL?
     
     private var event: Event?
@@ -44,17 +50,11 @@ struct EventCellViewModel: EventCellViewModelProtocol {
         self.isFavorite = event.isFavorite
         if let startTime = event.startTime {
             self.dateString = Self.dateFormatter.string(from: startTime)
+        } else {
+            self.dateString = ""
         }
         if let path = event.url {
             self.url = URL(string: path)
         }
-    }
-    
-    mutating func toggleIsFavorite() {
-        guard let event = event, let moc = event.managedObjectContext, !event.isDeleted  else { return }
-        event.isFavorite = !event.isFavorite
-        isFavorite = !isFavorite
-        try? moc.save()
-        event.objectWillChange.send()
     }
 }

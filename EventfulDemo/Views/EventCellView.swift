@@ -30,7 +30,7 @@ struct EventCellView: View {
                 }
                 Spacer()
                 Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
-                    .onTapGesture { self.viewModel.toggleIsFavorite() }
+                    .onTapGesture { self.viewModel.isFavorite = !self.viewModel.isFavorite }
             }
             .padding()
         }.sheet(isPresented: $showSafari) {

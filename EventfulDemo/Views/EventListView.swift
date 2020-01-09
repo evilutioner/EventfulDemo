@@ -30,8 +30,4 @@ struct EventListView: View {
             }
         }, isShowing: $isRefreshing))
     }
-    
-    private func refreshEventsIfNeed() {
-        //dataStore.refreshEvent
-    }
 }
